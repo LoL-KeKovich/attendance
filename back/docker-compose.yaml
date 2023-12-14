@@ -1,0 +1,22 @@
+version: '3'
+services:
+  webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: php_web
+    ports:
+      - "8000:80"
+    volumes:
+      - ./app:/var/www/html/
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:latest
+    container_name: database
+    environment:
+      MYSQL_ROOT_USER: user
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: attendance_control
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
